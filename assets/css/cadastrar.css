@@ -1,0 +1,12 @@
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+
+  /* COLOQUE O NOME DO ARQUIVO QUE JÁ ESTÁ NA SUA PASTA */
+  background-image: url('../img/undomais\ escuro.png'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
