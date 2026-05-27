@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Moedas - ECOMAR</title>
+
+  <!-- Bootstrap -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- CSS DO SITE -->
+  <link rel="stylesheet" href="assets/css/fontawesome.css">
+  <link rel="stylesheet" href="assets/css/ecomarcssoficial.css">
+
+  <style>
+
+    /* PRODUTO ESTILO E-COMMERCE */
+    .produto-card {
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      transition: 0.3s;
+    }
+
+    .produto-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .produto-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .produto-info {
+      padding: 20px;
+    }
+
+    .produto-info h4 {
+      margin-bottom: 10px;
+    }
+
+    .desc {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 15px;
+    }
+
+    .preco {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .desconto {
+      color: #22b3c1;
+      margin-bottom: 15px;
+    }
+
+    .main-button a {
+      display: block;
+      text-align: center;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header-area header-sticky">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <nav class="main-nav">
+
+          <a href="index.html" class="logo">
+            <img src="img/logo.png" alt="">
+          </a>
+
+          <ul class="nav">
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="venhanosconhecer.html">Venha nos conhecer</a></li>
+            <li><a href="contribuir.html">Contribuições</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="noticia.html">Notícia</a></li>
+            <li><a href="Games.html">Games</a></li>
+          </ul>
+
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- CONTEÚDO -->
+<div class="visit-country" style="margin-top:120px;">
+  <div class="container">
+
+    <!-- MOEDAS -->
+    <div class="row align-items-center mb-5">
+
+      <div class="col-lg-6">
+        <h2>Suas Moedas</h2>
+        <p>Use suas moedas para ganhar descontos ou ajudar o meio ambiente.</p>
+      </div>
+
+      <div class="col-lg-6 text-end">
+        <h1 style="color:#22b3c1;"> 10</h1>
+        <span>Moedas disponíveis</span>
+      </div>
+
+    </div>
+
+    <!-- AÇÕES -->
+    <div class="row mb-5">
+
+      <div class="col-lg-6">
+        <div class="item text-center p-4">
+          <h4>Usar em descontos</h4>
+          <p>Transforme suas moedas em descontos na loja.</p>
+          <div class="main-button">
+            <a href="login.html">Converter moedas</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="item text-center p-4">
+          <h4> Doar moedas</h4>
+          <p>Ajude ONGs ambientais com suas moedas.</p>
+          <div class="main-button">
+            <a href="contribuir.html">Doar agora</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PRODUTOS -->
+    <div class="row">
+
+      <!-- PRODUTO 1 -->
+      <div class="col-lg-4 col-md-6">
+        <div class="produto-card">
+          <img src="imgloja/pote.jpg">
+          <div class="produto-info">
+            <h4>Kit 10 Potes Herméticos Vidro e Tampa de Bambu</h4>
+            <p class="desc">Borossilicato para Temperos, Especiarias e Organização na Cozinha</p>
+            <div class="preco">R$ 85,90</div>
+            <div class="desconto"> 20 moedas de desconto</div>
+            <div class="main-button">
+              <a href="https://www.amazon.com.br/Herm%C3%A9ticos-Borossilicato-Temperos-Especiarias-Organiza%C3%A7%C3%A3o/dp/B0GQR5W3HQ">Aplicar desconto</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUTO 2 -->
+      <div class="col-lg-4 col-md-6">
+        <div class="produto-card">
+          <img src="imgloja/ecobag.jpg">
+          <div class="produto-info">
+            <h4>Ecobag</h4>
+            <p class="desc">Ecobag – Seja Onda Faça Eco – 100% Algodão</p>
+            <div class="preco">R$ 26,90</div>
+            <div class="desconto"> 15 moedas de desconto</div>
+            <div class="main-button">
+              <a href="https://www.ondaeco.com.br/produto/ecobag-seja-onda-faca-eco-100-algodao-17?srsltid=AfmBOoqfS9hxZKJDf2M4y-tOTHEyED4nQjcWgbc_tlzX2KTG_Kw9S35NgtE">Aplicar desconto</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUTO 3 -->
+      <div class="col-lg-4 col-md-6">
+        <div class="produto-card">
+          <img src="imgloja/canudo.jpg">
+          <div class="produto-info">
+            <h4>Canudo Inox</h4>
+            <p class="desc">Kit 6 em 1: 4 canudos de inox (shake 10mm) + escova + ecobag: 4R's</p>
+            <div class="preco">R$ 33,90</div>
+            <div class="desconto"> 10 moedas de desconto</div>
+            <div class="main-button">
+              <a href="https://www.canu.do/cog3cnyjl-kit-6-em-1-4-canudos-de-inox-shake-10mm-escova-ecobag-4rs?utm_source=Site&utm_medium=GoogleMerchant&utm_campaign=GoogleMerchant&sku=KITC61S10RRPE">Aplicar desconto</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUTO 4 -->
+      <div class="col-lg-4 col-md-6">
+        <div class="produto-card">
+          <img src="imgloja/copo.jpeg">
+          <div class="produto-info">
+            <h4>Copo Ecológico</h4>
+            <p class="desc">Copo de Fibra de Bambu com Tampa modelo Viagem - 400ml.</p>
+            <div class="preco">R$ 12,50</div>
+            <div class="desconto"> 12 moedas de desconto</div>
+            <div class="main-button">
+              <a href="https://www.socd.com.br/copo-fibra-bambu-tampa-viagem-400ml-dtf/p?srsltid=AfmBOorTjfN47y0tkUq1DmkKd7v69CZ9A7GmYv3av7uwqgyFu9RHGm4JlwA#idsku=11902">Aplicar desconto</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUTO 5 -->
+      <div class="col-lg-4 col-md-6">
+        <div class="produto-card">
+          <img src="imgloja/kit.jpg">
+          <div class="produto-info">
+            <h4>KIT PRESENTE BELEZA ESSENCIAL SUSTENTÁVEL</h4>
+            <p class="desc">1 (um) Sérum Facial Reparador Antissinais CB1 Amazônico 1 (um) Roller + Gua Sha em Pedra Jade 1 (uma) Necéssaire em Tecido Pet na cor verde
+
+Neste Natal, presenteie com cuidado: um kit de skincare vegano.</p>
+            <div class="preco">R$ 127,43</div>
+            <div class="desconto"> 60 moedas de desconto</div>
+            <div class="main-button">
+              <a href="https://www.belezanaweb.com.br/mp322856-kit-presente-natal-essencial-sustentavel/">Aplicar desconto</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUTO 6 -->
+      <div class="col-lg-4 col-md-6">
+        <div class="produto-card">
+          <img src="imgloja/escova.jpg">
+          <div class="produto-info">
+            <h4>Escova De Dentes Ecologicas</h4>
+            <p class="desc">A Escova de Dente Ecológica é feita com bambu natural, um recurso sustentável e biodegradável.</p>
+            <div class="preco">R$ 26,08</div>
+            <div class="desconto"> 5 moedas de desconto</div>
+            <div class="main-button">
+              <a href="https://www.extra.com.br/escova-de-dentes-ecologicas/p/1570471145?utm_medium=cpc&utm_source=google_freelisting&IdSku=1570471145&idLojista=230770&tipoLojista=3P">Aplicar desconto</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <p>Direitos autorais <a href="#">ECOMAR</a></p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+</body>
+</html>

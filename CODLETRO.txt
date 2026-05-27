@@ -1,0 +1,816 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LetroMar</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg1:#20c4d4;
+  --bg2:#0d7180;
+  --bg3:#082f35;
+
+  --glass:rgba(255,255,255,0.08);
+  --glass-border:rgba(255,255,255,0.14);
+
+  --correct:#35d98a;
+  --present:#f4c247;
+  --absent:rgba(255,255,255,0.15);
+
+  --text:#fff;
+  --text-soft:rgba(255,255,255,0.7);
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Sora',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  color:white;
+  background:
+    radial-gradient(circle at top,#35d0df 0%,transparent 40%),
+    linear-gradient(160deg,var(--bg1),var(--bg2) 45%,var(--bg3));
+}
+
+/* FUNDO */
+#floatingLetters{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:0;
+}
+
+.float-letter{
+  position:absolute;
+  font-weight:800;
+  color:rgba(255,255,255,0.08);
+  animation:floatUp linear infinite;
+  user-select:none;
+}
+
+@keyframes floatUp{
+  0%{
+    transform:translateY(110vh) rotate(0deg);
+    opacity:0;
+  }
+  10%{opacity:1;}
+  100%{
+    transform:translateY(-120vh) rotate(360deg);
+    opacity:0;
+  }
+}
+
+/* SPLASH */
+#splash{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  padding:30px;
+  z-index:50;
+  transition:0.7s;
+}
+
+#splash.hide{
+  opacity:0;
+  transform:scale(1.08);
+  pointer-events:none;
+}
+
+.badge{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 18px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.2);
+  backdrop-filter:blur(12px);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:3px;
+  margin-bottom:26px;
+  animation:fadeUp .6s ease both;
+}
+
+.badge-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#72ffd0;
+  box-shadow:0 0 18px #72ffd0;
+}
+
+.title{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:6px;
+}
+
+.title span{
+  font-size:clamp(58px,12vw,120px);
+  font-weight:900;
+  line-height:1;
+  display:inline-block;
+  animation:floatLetter 5s ease-in-out infinite;
+  text-shadow:0 15px 35px rgba(0,0,0,.35);
+}
+
+.title span:nth-child(-n+5){
+  color:white;
+}
+
+.title span:nth-child(n+6){
+  color:#7ef2ff;
+}
+
+@keyframes floatLetter{
+  0%,100%{transform:translateY(0px)}
+  50%{transform:translateY(-12px)}
+}
+
+.subtitle{
+  margin-top:28px;
+  max-width:700px;
+  text-align:center;
+  font-size:18px;
+  line-height:1.7;
+  color:rgba(255,255,255,.82);
+  animation:fadeUp .6s .3s both;
+}
+
+.playBtn{
+  position:relative;
+  overflow:hidden;
+  margin-top:42px;
+  border:none;
+  border-radius:999px;
+  padding:22px 60px;
+  font-size:20px;
+  font-weight:800;
+  cursor:pointer;
+  background:white;
+  color:#0d5c63;
+  transition:.25s;
+  box-shadow:0 25px 60px rgba(0,0,0,.35);
+  animation:fadeUp .6s .5s both;
+}
+
+.playBtn:hover{
+  transform:translateY(-4px) scale(1.03);
+}
+
+.playBtn::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);
+  transform:translateX(-120%);
+  transition:1s;
+}
+
+.playBtn:hover::before{
+  transform:translateX(120%);
+}
+
+.infoRow{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+  margin-top:60px;
+  animation:fadeUp .6s .7s both;
+}
+
+.infoCard{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+}
+
+.infoColor{
+  width:54px;
+  height:54px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,0.2);
+}
+
+.infoCard span{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  color:rgba(255,255,255,0.7);
+}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(25px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* GAME */
+#game{
+  position:relative;
+  z-index:2;
+  min-height:100vh;
+  padding:24px;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+}
+
+.header{
+  width:100%;
+  max-width:760px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:24px;
+}
+
+.logo{
+  font-size:34px;
+  font-weight:900;
+}
+
+.logo span{
+  color:#7ef2ff;
+}
+
+.scoreBox{
+  padding:10px 18px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.12);
+  font-weight:700;
+}
+
+.card{
+  width:100%;
+  max-width:760px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.14);
+  border-radius:30px;
+  backdrop-filter:blur(18px);
+  padding:30px;
+  box-shadow:0 25px 80px rgba(0,0,0,.25);
+}
+
+.hint{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.12);
+  padding:18px;
+  border-radius:18px;
+  margin-bottom:24px;
+  line-height:1.7;
+}
+
+.grid{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  margin-bottom:24px;
+}
+
+.row{
+  display:flex;
+  gap:6px;
+}
+
+.tile{
+  width:56px;
+  height:56px;
+  border-radius:14px;
+  border:2px solid rgba(255,255,255,0.18);
+  background:rgba(255,255,255,0.08);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Space Mono',monospace;
+  font-size:22px;
+  font-weight:700;
+  text-transform:uppercase;
+  transition:.25s;
+}
+
+.correct{
+  background:var(--correct);
+  border-color:var(--correct);
+}
+
+.present{
+  background:var(--present);
+  border-color:var(--present);
+  color:#222;
+}
+
+.absent{
+  background:rgba(255,255,255,0.12);
+  border-color:rgba(255,255,255,0.12);
+  color:rgba(255,255,255,0.45);
+}
+
+.inputArea{
+  display:flex;
+  gap:12px;
+  margin-bottom:20px;
+}
+
+input{
+  flex:1;
+  padding:18px;
+  border:none;
+  outline:none;
+  border-radius:18px;
+  background:rgba(255,255,255,0.12);
+  color:white;
+  font-size:18px;
+  text-align:center;
+  font-family:'Space Mono',monospace;
+  letter-spacing:3px;
+  text-transform:uppercase;
+}
+
+input::placeholder{
+  color:rgba(255,255,255,.4);
+  letter-spacing:0;
+  font-family:'Sora',sans-serif;
+}
+
+.sendBtn{
+  border:none;
+  border-radius:18px;
+  padding:18px 26px;
+  font-weight:800;
+  background:linear-gradient(135deg,#26d5e6,#1599a8);
+  color:white;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.sendBtn:hover{
+  transform:translateY(-2px);
+}
+
+.message{
+  min-height:30px;
+  text-align:center;
+  margin-bottom:18px;
+  color:rgba(255,255,255,0.8);
+}
+
+.keyboard{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.keyboardRow{
+  display:flex;
+  justify-content:center;
+  gap:6px;
+}
+
+.key{
+  min-width:42px;
+  height:48px;
+  border:none;
+  border-radius:10px;
+  background:rgba(255,255,255,0.9);
+  color:#0d5c63;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.key.large{
+  min-width:64px;
+}
+
+.k-correct{
+  background:var(--correct);
+  color:white;
+}
+
+.k-present{
+  background:var(--present);
+  color:#222;
+}
+
+.k-absent{
+  background:rgba(255,255,255,0.18);
+  color:rgba(255,255,255,0.5);
+}
+
+@media(max-width:700px){
+  .tile{
+    width:44px;
+    height:44px;
+    font-size:18px;
+  }
+
+  .key{
+    min-width:34px;
+    height:42px;
+  }
+
+  .card{
+    padding:18px;
+  }
+
+  .infoRow{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<div id="floatingLetters"></div>
+
+<div id="splash">
+
+  <div class="badge">
+    <div class="badge-dot"></div>
+    jogo de palavras do mar
+  </div>
+
+  <div class="title" id="title"></div>
+
+  <div class="subtitle">
+    Descubra palavras escondidas nas ondas. Use a dica, conecte letras e mergulhe em um desafio inspirado no oceano.
+  </div>
+
+  <button class="playBtn" onclick="startGame()">
+    🌊 Jogar Agora
+  </button>
+
+  <div class="infoRow">
+    <div class="infoCard">
+      <div class="infoColor" style="background:var(--correct)"></div>
+      <span>Verde · letra certa</span>
+    </div>
+
+    <div class="infoCard">
+      <div class="infoColor" style="background:var(--present)"></div>
+      <span>Âmbar · lugar errado</span>
+    </div>
+
+    <div class="infoCard">
+      <div class="infoColor" style="background:var(--absent)"></div>
+      <span>Cinza · não existe</span>
+    </div>
+  </div>
+</div>
+
+<div id="game">
+
+  <div class="header">
+    <div class="logo">Letro<span>Mar</span></div>
+    <div class="scoreBox">⭐ <span id="score">0</span></div>
+  </div>
+
+  <div class="card">
+
+    <div class="hint" id="hint"></div>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="inputArea">
+      <input id="guessInput" maxlength="10" placeholder="Digite uma palavra">
+      <button class="sendBtn" onclick="submitGuess()">Enviar</button>
+    </div>
+
+    <div class="message" id="message"></div>
+
+    <div class="keyboard" id="keyboard"></div>
+
+  </div>
+</div>
+
+<script>
+const phases=[
+{hint:'Espécie marinha associada a anêmonas e recifes tropicais',answer:'PALHACO'},
+{hint:'Gigante oceânico cuja dimensão supera qualquer mamífero terrestre',answer:'BALEIA'},
+{hint:'Estrutura calcária vital para ecossistemas submarinos tropicais',answer:'CORAL'},
+{hint:'Molusco cefalópode reconhecido por inteligência e múltiplos tentáculos',answer:'POLVO'},
+{hint:'Predador cartilaginoso no topo de diversas cadeias marinhas',answer:'TUBARAO'}
+];
+
+let currentPhase=0;
+let score=0;
+const keyState={};
+
+const hintEl=document.getElementById('hint');
+const gridEl=document.getElementById('grid');
+const inputEl=document.getElementById('guessInput');
+const messageEl=document.getElementById('message');
+const keyboardEl=document.getElementById('keyboard');
+
+function normalizeWord(word){
+  return word.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
+
+function buildTitle(){
+  const title='LETROMAR';
+  const container=document.getElementById('title');
+
+  title.split('').forEach((l,i)=>{
+    const span=document.createElement('span');
+    span.textContent=l;
+    span.style.animationDelay=(i*0.12)+'s';
+    container.appendChild(span);
+  });
+}
+
+buildTitle();
+
+function createFloatingLetters(){
+  const letters='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const container=document.getElementById('floatingLetters');
+
+  for(let i=0;i<40;i++){
+    const el=document.createElement('div');
+    el.className='float-letter';
+    el.textContent=letters[Math.floor(Math.random()*letters.length)];
+
+    const size=20+Math.random()*60;
+
+    el.style.left=Math.random()*100+'%';
+    el.style.fontSize=size+'px';
+    el.style.animationDuration=(8+Math.random()*12)+'s';
+    el.style.animationDelay=Math.random()*8+'s';
+
+    container.appendChild(el);
+  }
+}
+
+createFloatingLetters();
+
+function startGame(){
+  const splash=document.getElementById('splash');
+
+  splash.classList.add('hide');
+
+  setTimeout(()=>{
+    splash.style.display='none';
+    document.getElementById('game').style.display='flex';
+    buildKeyboard();
+    loadPhase();
+  },700);
+}
+
+function loadPhase(){
+  const phase=phases[currentPhase];
+
+  gridEl.innerHTML='';
+  hintEl.innerHTML='<b>🌊 Dica:</b> '+phase.hint;
+
+  inputEl.value='';
+  messageEl.textContent='';
+}
+
+const rows=['QWERTYUIOP','ASDFGHJKL','ZXCVBNM'];
+
+function buildKeyboard(){
+  keyboardEl.innerHTML='';
+
+  rows.forEach((row,rowIndex)=>{
+    const rowEl=document.createElement('div');
+    rowEl.className='keyboardRow';
+
+    if(rowIndex===2){
+      rowEl.appendChild(makeKey('⌫',true,()=>{
+        inputEl.value=inputEl.value.slice(0,-1);
+      }));
+    }
+
+    row.split('').forEach(letter=>{
+      rowEl.appendChild(makeKey(letter,false,()=>{
+        if(inputEl.value.length<10){
+          inputEl.value+=letter;
+        }
+      }));
+    });
+
+    if(rowIndex===2){
+      rowEl.appendChild(makeKey('↵',true,submitGuess));
+    }
+
+    keyboardEl.appendChild(rowEl);
+  });
+}
+
+function makeKey(label,large,callback){
+  const btn=document.createElement('button');
+  btn.className='key'+(large?' large':'');
+  btn.textContent=label;
+  btn.dataset.letter=label;
+  btn.onclick=callback;
+  return btn;
+}
+
+function updateKeyboard(guess,answer){
+  guess.split('').forEach((letter,i)=>{
+    const prev=keyState[letter]||'none';
+
+    let next;
+
+    if(answer[i]===letter){
+      next='correct';
+    }
+    else if(answer.includes(letter)){
+      next='present';
+    }
+    else{
+      next='absent';
+    }
+
+    const priority={correct:3,present:2,absent:1,none:0};
+
+    if(priority[next]>priority[prev]){
+      keyState[letter]=next;
+    }
+  });
+
+  document.querySelectorAll('.key').forEach(btn=>{
+    const l=btn.dataset.letter;
+
+    if(!l || l.length!==1)return;
+
+    btn.classList.remove('k-correct','k-present','k-absent');
+
+    if(keyState[l]==='correct')btn.classList.add('k-correct');
+    else if(keyState[l]==='present')btn.classList.add('k-present');
+    else if(keyState[l]==='absent')btn.classList.add('k-absent');
+  });
+}
+
+function createRow(guess,answer){
+  const row=document.createElement('div');
+  row.className='row';
+
+  const result=Array(guess.length).fill('absent');
+  const used=Array(answer.length).fill(false);
+
+  // VERDES
+  for(let i=0;i<guess.length;i++){
+    if(i<answer.length && guess[i]===answer[i]){
+      result[i]='correct';
+      used[i]=true;
+    }
+  }
+
+  // AMARELOS
+  for(let i=0;i<guess.length;i++){
+    if(result[i]!=='correct'){
+      for(let j=0;j<answer.length;j++){
+        if(!used[j] && guess[i]===answer[j]){
+          result[i]='present';
+          used[j]=true;
+          break;
+        }
+      }
+    }
+  }
+
+  // BLOCO CONTÍNUO
+  const blockMap=Array(guess.length).fill(-1);
+  let blockId=0;
+
+  for(let start=0;start<guess.length;start++){
+    let bestLength=0;
+
+    for(let len=guess.length-start;len>=2;len--){
+      const segment=guess.slice(start,start+len);
+
+      if(answer.includes(segment)){
+        bestLength=len;
+        break;
+      }
+    }
+
+    if(bestLength>=2){
+      let canPlace=true;
+
+      for(let k=start;k<start+bestLength;k++){
+        if(blockMap[k]!==-1){
+          canPlace=false;
+          break;
+        }
+      }
+
+      if(canPlace){
+        for(let k=start;k<start+bestLength;k++){
+          blockMap[k]=blockId;
+        }
+
+        blockId++;
+      }
+    }
+  }
+
+  // RENDER
+  for(let i=0;i<guess.length;i++){
+    const tile=document.createElement('div');
+    tile.className='tile '+result[i];
+    tile.textContent=guess[i];
+
+    const currentBlock=blockMap[i];
+    const connectedLeft=i>0 && blockMap[i-1]===currentBlock && currentBlock!==-1;
+    const connectedRight=i<guess.length-1 && blockMap[i+1]===currentBlock && currentBlock!==-1;
+
+    if(currentBlock!==-1){
+      if(connectedLeft){
+        tile.style.marginLeft='-4px';
+        tile.style.borderTopLeftRadius='4px';
+        tile.style.borderBottomLeftRadius='4px';
+      }
+
+      if(connectedRight){
+        tile.style.marginRight='-4px';
+        tile.style.borderTopRightRadius='4px';
+        tile.style.borderBottomRightRadius='4px';
+      }
+
+      if(connectedLeft && connectedRight){
+        tile.style.borderRadius='4px';
+      }
+    }
+
+    row.appendChild(tile);
+  }
+
+  gridEl.appendChild(row);
+}
+
+function submitGuess(){
+  const answer=phases[currentPhase].answer;
+  const guess=normalizeWord(inputEl.value.trim());
+
+  if(!guess){
+    messageEl.textContent='⚠ Digite uma palavra';
+    return;
+  }
+
+  createRow(guess,answer);
+  updateKeyboard(guess,answer);
+
+  inputEl.value='';
+
+  if(guess===answer){
+    score++;
+    document.getElementById('score').textContent=score;
+
+    messageEl.textContent='🎉 Palavra correta!';
+
+    setTimeout(()=>{
+      currentPhase++;
+
+      Object.keys(keyState).forEach(k=>delete keyState[k]);
+
+      if(currentPhase>=phases.length){
+        hintEl.innerHTML='<h2>🏆 Você concluiu o LetroMar!</h2>';
+        messageEl.textContent='Pontuação final: '+score+'/'+phases.length;
+
+        inputEl.style.display='none';
+        document.querySelector('.sendBtn').style.display='none';
+        keyboardEl.style.display='none';
+      }
+      else{
+        buildKeyboard();
+        loadPhase();
+      }
+    },1300);
+  }
+  else{
+    messageEl.textContent='🌊 Continue tentando';
+  }
+}
+
+inputEl.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    submitGuess();
+  }
+});
+</script>
+
+</body>
+</html>

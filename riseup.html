@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Proteja o Oceano</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+  --c-aqua:#4fd0ff;
+  --c-ocean:#0a4d68;
+  --c-deep:#062c3d;
+  --c-cyan:#6fffe9;
+  --c-soft:#f5fefe;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family:'Poppins',sans-serif;
+  background:#062c3d;
+}
+
+body{
+  color:white;
+}
+
+.hidden{
+  display:none !important;
+}
+
+#app{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+}
+
+.ocean-bg{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at top, rgba(79,208,255,.25), transparent 40%),
+    linear-gradient(to bottom,#0a4d68 0%,#07384d 40%,#062c3d 100%);
+}
+
+.light{
+  position:absolute;
+  width:700px;
+  height:700px;
+  border-radius:50%;
+  filter:blur(80px);
+  opacity:.3;
+  animation:floatLight 16s ease-in-out infinite alternate;
+}
+
+.light.one{
+  background:#4fd0ff;
+  top:-180px;
+  left:-100px;
+}
+
+.light.two{
+  background:#6fffe9;
+  bottom:-220px;
+  right:-120px;
+  animation-duration:22s;
+}
+
+@keyframes floatLight{
+  from{
+    transform:translateY(0) translateX(0) scale(1);
+  }
+  to{
+    transform:translateY(40px) translateX(60px) scale(1.15);
+  }
+}
+
+.bubbles{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
+.bubble{
+  position:absolute;
+  bottom:-40px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.05);
+  animation:rise linear infinite;
+}
+
+@keyframes rise{
+  from{
+    transform:translateY(0) translateX(0);
+    opacity:0;
+  }
+
+  10%{
+    opacity:.7;
+  }
+
+  to{
+    transform:translateY(-120vh) translateX(40px);
+    opacity:0;
+  }
+}
+
+.screen{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  z-index:2;
+}
+
+.menu-box{
+  width:min(900px,100%);
+  text-align:center;
+  animation:fadeIn .6s ease;
+}
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    transform:translateY(15px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+
+.title{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-bottom:20px;
+}
+
+.title span:first-child{
+  font-size:clamp(48px,8vw,92px);
+  font-weight:800;
+  color:white;
+  text-shadow:0 0 25px rgba(79,208,255,.7);
+}
+
+.title span:last-child{
+  font-size:clamp(42px,7vw,84px);
+  font-weight:800;
+  background:linear-gradient(90deg,var(--c-cyan),var(--c-aqua));
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.subtitle{
+  color:rgba(255,255,255,.75);
+  margin-bottom:40px;
+  font-size:18px;
+}
+
+.characters{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+  margin-bottom:35px;
+}
+
+.card{
+  position:relative;
+  overflow:hidden;
+  border-radius:28px;
+  padding:24px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(16px);
+  cursor:pointer;
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(111,255,233,.5);
+  box-shadow:0 15px 45px rgba(79,208,255,.2);
+}
+
+.card.selected{
+  border-color:var(--c-cyan);
+  box-shadow:
+    0 0 0 2px rgba(111,255,233,.6),
+    0 15px 50px rgba(111,255,233,.25);
+}
+
+.card::before{
+  content:'';
+  position:absolute;
+  inset:-40%;
+  background:radial-gradient(circle, rgba(111,255,233,.18), transparent 70%);
+  opacity:0;
+  transition:.4s;
+}
+
+.card:hover::before,
+.card.selected::before{
+  opacity:1;
+}
+
+.card img{
+  width:150px;
+  height:150px;
+  object-fit:contain;
+  display:block;
+  margin:auto;
+}
+
+.card h3{
+  margin-top:14px;
+  font-size:24px;
+}
+
+.card p{
+  margin-top:6px;
+  color:rgba(255,255,255,.7);
+  font-size:14px;
+}
+
+.btn{
+  border:none;
+  border-radius:999px;
+  padding:16px 38px;
+  cursor:pointer;
+  font-size:17px;
+  font-weight:700;
+  color:#062c3d;
+  background:linear-gradient(135deg,var(--c-cyan),var(--c-aqua));
+  box-shadow:0 10px 35px rgba(79,208,255,.35);
+  transition:.25s;
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+}
+
+#gameContainer{
+  position:absolute;
+  inset:0;
+}
+
+canvas{
+  display:block;
+}
+
+#hud{
+  position:absolute;
+  top:18px;
+  left:18px;
+  right:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:5;
+}
+
+.hud-right{
+  display:flex;
+  gap:10px;
+}
+
+.hud-chip{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 16px;
+  border-radius:999px;
+  background:rgba(6,44,61,.55);
+  border:1px solid rgba(111,255,233,.25);
+  backdrop-filter:blur(12px);
+}
+
+.hud-chip span{
+  color:rgba(255,255,255,.7);
+  font-size:12px;
+  text-transform:uppercase;
+}
+
+.hud-chip strong{
+  font-size:18px;
+  color:var(--c-cyan);
+}
+
+#backBtn{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  color:white;
+  font-size:24px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+}
+
+#gameOver{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,.7);
+  backdrop-filter:blur(10px);
+  z-index:20;
+}
+
+.gameover-box{
+  width:min(450px,92vw);
+  padding:38px;
+  border-radius:32px;
+  background:linear-gradient(180deg, rgba(10,77,104,.88), rgba(6,44,61,.95));
+  border:1px solid rgba(111,255,233,.25);
+  box-shadow:
+  0 0 60px rgba(79,208,255,.25),
+  0 20px 70px rgba(0,0,0,.55);
+  text-align:center;
+}
+
+.gameover-box h2{
+  font-size:58px;
+  margin-bottom:10px;
+  font-weight:800;
+  background:linear-gradient(90deg,#ff8a8a,#ffd166);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.gameover-box p{
+  color:rgba(255,255,255,.75);
+  font-size:16px;
+}
+
+.final-score-text{
+  margin-top:18px;
+  font-size:1.2rem;
+}
+
+.final-score-text span{
+  color:var(--c-cyan);
+  font-weight:700;
+  font-size:1.6rem;
+}
+
+.gameover-buttons{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin-top:28px;
+}
+
+.game-btn{
+  border:none;
+  border-radius:18px;
+  padding:16px 20px;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.25s;
+  color:white;
+}
+
+.game-btn:hover{
+  transform:translateY(-2px) scale(1.02);
+}
+
+.play-again{
+  background:linear-gradient(135deg,#6fffe9,#4fd0ff);
+  color:#062c3d;
+  box-shadow:0 10px 30px rgba(79,208,255,.35);
+}
+
+.menu-btn{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+  backdrop-filter:blur(10px);
+}
+
+.home-btn{
+  background:linear-gradient(135deg,#ffffff,#dffcff);
+  color:#062c3d;
+  box-shadow:0 10px 25px rgba(255,255,255,.15);
+}
+
+@media(max-width:700px){
+
+  .characters{
+    grid-template-columns:1fr;
+  }
+
+  .card img{
+    width:120px;
+    height:120px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+<div class="ocean-bg">
+  <div class="light one"></div>
+  <div class="light two"></div>
+
+  <div class="bubbles" id="bubbles"></div>
+</div>
+
+<div id="menu" class="screen">
+
+  <div class="menu-box">
+
+    <div class="title">
+      <span>Proteja</span>
+      <span>o Oceano</span>
+    </div>
+
+    <p class="subtitle">
+      Defenda a vida marinha do lixo oceânico.
+    </p>
+
+    <div class="characters">
+
+      <div class="card selected" data-character="turtle">
+        <img src="imggames/tataruga.png">
+        <h3>Tartaruga</h3>
+        <p>Símbolo dos mares</p>
+      </div>
+
+      <div class="card" data-character="fish">
+        <img src="imggames/peixe.png">
+        <h3>Peixe</h3>
+        <p>Ágil e brilhante</p>
+      </div>
+
+      <div class="card" data-character="earth">
+        <img src="imggames/planetaterra.png">
+        <h3>Planeta Terra</h3>
+        <p>Nosso lar azul</p>
+      </div>
+
+    </div>
+
+    <button id="startBtn" class="btn">
+      Começar
+    </button>
+
+  </div>
+
+</div>
+
+<div id="gameContainer" class="hidden">
+
+  <div id="hud">
+
+    <a href="#" id="backBtn">⬅</a>
+
+    <div class="hud-right">
+
+      <div class="hud-chip">
+        <span>Pontos</span>
+        <strong id="score">0</strong>
+      </div>
+
+      <div class="hud-chip">
+        <span>Tempo</span>
+        <strong><span id="time">0</span>s</strong>
+      </div>
+
+    </div>
+
+  </div>
+
+  <canvas id="gameCanvas"></canvas>
+
+  <div id="gameOver" class="hidden">
+
+    <div class="gameover-box">
+
+      <h2>Game Over</h2>
+
+      <p>
+        Você não conseguiu proteger o oceano.
+      </p>
+
+      <p class="final-score-text">
+        Pontuação final:
+        <span id="finalScore"></span>
+      </p>
+
+      <div class="gameover-buttons">
+
+        <button onclick="restartGame()" class="game-btn play-again">
+          Jogar Novamente
+        </button>
+
+        <button onclick="backToMenu()" class="game-btn menu-btn">
+          Voltar ao Menu
+        </button>
+
+        <button onclick="goHomeSite()" class="game-btn home-btn">
+          Voltar ao Site
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+<script>
+
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+const menu = document.getElementById('menu');
+const gameContainer = document.getElementById('gameContainer');
+
+const scoreEl = document.getElementById('score');
+const timeEl = document.getElementById('time');
+const finalScoreEl = document.getElementById('finalScore');
+
+const gameOverScreen = document.getElementById('gameOver');
+
+const cards = document.querySelectorAll('.card');
+
+let selectedCharacter = 'turtle';
+
+cards.forEach(card=>{
+
+  card.addEventListener('click',()=>{
+
+    cards.forEach(c=>c.classList.remove('selected'));
+
+    card.classList.add('selected');
+
+    selectedCharacter = card.dataset.character;
+
+  });
+
+});
+
+const characterSources = {
+  turtle:'imggames/tataruga.png',
+  fish:'imggames/peixe.png',
+  earth:'imggames/planetaterra.png'
+};
+
+const trashSources = [
+  'imggames/canudo.png',
+  'imggames/lata.png',
+  'imggames/frauda.png',
+  'imggames/sacola.png',
+  'imggames/garrafa.png'
+];
+
+const playerImg = new Image();
+
+const trashImages = trashSources.map(src=>{
+
+  const img = new Image();
+  img.src = src;
+
+  return img;
+
+});
+
+function resize(){
+
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+
+}
+
+resize();
+
+window.addEventListener('resize',resize);
+
+const player = {
+  x:0,
+  y:0,
+  size:165
+};
+
+const shield = {
+  x:0,
+  y:0,
+  tx:0,
+  ty:0,
+  radius:55
+};
+
+let trash = [];
+
+let score = 0;
+let elapsed = 0;
+
+let gravity = .32;
+let spawnRate = 48;
+
+let frame = 0;
+
+let running = false;
+
+let animationId = null;
+let timer = null;
+
+function reset(){
+
+  player.x = canvas.width / 2;
+  player.y = canvas.height / 2;
+
+  shield.x = canvas.width / 2;
+  shield.y = canvas.height / 2 + 120;
+
+  shield.tx = shield.x;
+  shield.ty = shield.y;
+
+}
+
+reset();
+
+function startGame(){
+
+  cancelAnimationFrame(animationId);
+  clearTimeout(timer);
+
+  playerImg.src = characterSources[selectedCharacter];
+
+  score = 0;
+  elapsed = 0;
+
+  gravity = .32;
+  spawnRate = 48;
+
+  frame = 0;
+
+  trash = [];
+
+  running = true;
+
+  reset();
+
+  scoreEl.textContent = 0;
+  timeEl.textContent = 0;
+
+  menu.classList.add('hidden');
+
+  gameContainer.classList.remove('hidden');
+
+  gameOverScreen.classList.add('hidden');
+
+  gameLoop();
+
+  timerLoop();
+
+}
+
+function timerLoop(){
+
+  if(!running) return;
+
+  timer = setTimeout(()=>{
+
+    elapsed++;
+
+    timeEl.textContent = elapsed;
+
+    if(elapsed % 10 === 0){
+
+      score += 1;
+
+      spawnRate = Math.max(18, spawnRate - 2);
+
+      gravity += .01;
+
+      scoreEl.textContent = score;
+
+    }
+
+    timerLoop();
+
+  },1000);
+
+}
+
+function spawnTrash(){
+
+  const img = trashImages[
+    Math.floor(Math.random() * trashImages.length)
+  ];
+
+  let x;
+  let y;
+
+  const type = Math.random();
+
+  if(type < .33){
+
+    x = -100;
+    y = Math.random() * canvas.height * .6;
+
+  }
+  else if(type < .66){
+
+    x = canvas.width + 100;
+    y = Math.random() * canvas.height * .6;
+
+  }
+  else{
+
+    x = Math.random() * canvas.width;
+    y = -100;
+
+  }
+
+  const dx = player.x - x;
+  const dy = player.y - y;
+
+  const dist = Math.hypot(dx,dy);
+
+  const speed = 3.2 + Math.random() * 2.2;
+
+  trash.push({
+
+    x,
+    y,
+
+    size:70 + Math.random() * 30,
+
+    vx:(dx/dist) * speed,
+    vy:(dy/dist) * speed,
+
+    rotation:Math.random() * Math.PI,
+
+    spin:(Math.random() - .5) * .16,
+
+    mass:1 + Math.random() * 2,
+
+    img
+
+  });
+
+}
+
+function drawBackground(){
+
+  const gradient = ctx.createLinearGradient(
+    0,
+    0,
+    0,
+    canvas.height
+  );
+
+  gradient.addColorStop(0,'rgba(79,208,255,.10)');
+  gradient.addColorStop(.5,'rgba(10,77,104,.22)');
+  gradient.addColorStop(1,'rgba(6,44,61,.55)');
+
+  ctx.fillStyle = gradient;
+
+  ctx.fillRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+}
+
+function drawPlayer(){
+
+  ctx.drawImage(
+    playerImg,
+    player.x - player.size/2,
+    player.y - player.size/2,
+    player.size,
+    player.size
+  );
+
+}
+
+function drawShield(){
+
+  shield.x += (shield.tx - shield.x) * .22;
+  shield.y += (shield.ty - shield.y) * .22;
+
+  ctx.strokeStyle = 'rgba(111,255,233,.95)';
+  ctx.lineWidth = 5;
+
+  ctx.beginPath();
+
+  ctx.arc(
+    shield.x,
+    shield.y,
+    shield.radius,
+    0,
+    Math.PI*2
+  );
+
+  ctx.stroke();
+
+}
+
+function updateTrash(){
+
+  for(let i=trash.length-1;i>=0;i--){
+
+    const t = trash[i];
+
+    t.vy += gravity * .02;
+
+    t.x += t.vx;
+    t.y += t.vy;
+
+    t.rotation += t.spin;
+
+    const dx = t.x - shield.x;
+    const dy = t.y - shield.y;
+
+    const dist = Math.hypot(dx,dy);
+
+    if(dist < shield.radius + t.size/2){
+
+      const force = 9 / t.mass;
+
+      if(dist !== 0){
+
+        t.vx += (dx/dist) * force;
+        t.vy += (dy/dist) * force;
+
+      }
+
+    }
+
+    const pdx = t.x - player.x;
+    const pdy = t.y - player.y;
+
+    const pdist = Math.hypot(pdx,pdy);
+
+    if(pdist < player.size/2.5 + t.size/2){
+
+      endGame();
+
+      return;
+
+    }
+
+    ctx.save();
+
+    ctx.translate(t.x,t.y);
+
+    ctx.rotate(t.rotation);
+
+    ctx.drawImage(
+      t.img,
+      -t.size/2,
+      -t.size/2,
+      t.size,
+      t.size
+    );
+
+    ctx.restore();
+
+    if(
+      t.x < -250 ||
+      t.x > canvas.width + 250 ||
+      t.y > canvas.height + 250
+    ){
+
+      trash.splice(i,1);
+
+    }
+
+  }
+
+}
+
+function gameLoop(){
+
+  if(!running) return;
+
+  frame++;
+
+  ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  drawBackground();
+
+  if(frame % spawnRate === 0){
+
+    spawnTrash();
+
+  }
+
+  drawPlayer();
+
+  drawShield();
+
+  updateTrash();
+
+  animationId = requestAnimationFrame(gameLoop);
+
+}
+
+function endGame(){
+
+  running = false;
+
+  cancelAnimationFrame(animationId);
+
+  clearTimeout(timer);
+
+  finalScoreEl.textContent = score;
+
+  gameOverScreen.classList.remove('hidden');
+
+}
+
+function restartGame(){
+
+  startGame();
+
+}
+
+function backToMenu(){
+
+  gameOverScreen.classList.add('hidden');
+
+  gameContainer.classList.add('hidden');
+
+  menu.classList.remove('hidden');
+
+  running = false;
+
+  cancelAnimationFrame(animationId);
+
+  clearTimeout(timer);
+
+}
+
+function goHomeSite(){
+
+  window.location.href = "Games.html";
+
+}
+
+window.restartGame = restartGame;
+window.backToMenu = backToMenu;
+window.goHomeSite = goHomeSite;
+
+window.addEventListener('mousemove',e=>{
+
+  shield.tx = e.clientX;
+  shield.ty = e.clientY;
+
+});
+
+window.addEventListener('touchmove',e=>{
+
+  shield.tx = e.touches[0].clientX;
+  shield.ty = e.touches[0].clientY;
+
+},{passive:true});
+
+window.addEventListener('touchstart',e=>{
+
+  shield.tx = e.touches[0].clientX;
+  shield.ty = e.touches[0].clientY;
+
+},{passive:true});
+
+const bubblesContainer = document.getElementById('bubbles');
+
+for(let i=0;i<24;i++){
+
+  const bubble = document.createElement('div');
+
+  bubble.className = 'bubble';
+
+  const size = 6 + Math.random()*14;
+
+  bubble.style.width = size+'px';
+  bubble.style.height = size+'px';
+
+  bubble.style.left = Math.random()*100+'%';
+
+  bubble.style.animationDuration =
+    8 + Math.random()*12+'s';
+
+  bubble.style.animationDelay =
+    Math.random()*8+'s';
+
+  bubblesContainer.appendChild(bubble);
+
+}
+
+document
+  .getElementById('startBtn')
+  .addEventListener('click',startGame);
+
+document
+  .getElementById('backBtn')
+  .addEventListener('click',(e)=>{
+
+    e.preventDefault();
+
+    backToMenu();
+
+});
+
+</script>
+
+</body>
+</html>
